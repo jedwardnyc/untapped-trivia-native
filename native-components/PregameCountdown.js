@@ -72,19 +72,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 80,
-    paddingBottom: 20
+    paddingBottom: 20,
+    color: '#27476E'
   },
   h2: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 20,
-    paddingBottom: 40
+    paddingBottom: 40,
+    color: '#27476E'
   },
   buttonCopy: {
     fontSize: 12,
     padding: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E'
   }
 })
 

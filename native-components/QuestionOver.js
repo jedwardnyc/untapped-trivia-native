@@ -18,7 +18,7 @@ class QuestionOver extends React.Component {
   componentDidMount() {
     let countdownTimer
     this.setState({ timer: 10 })
-    this.countdown()
+    // this.countdown()
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
   }
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     paddingTop: 80,
   },
   centerText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   },
   h1: {
     fontSize: 30,

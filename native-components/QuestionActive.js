@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { View, StyleSheet, Text, Button, AsyncStorage } from 'react-native';
+import { View, StyleSheet, Text, Button, AsyncStorage, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import DOMParser from 'react-native-html-parser';
 import socket from '../socket-client'
@@ -11,7 +11,7 @@ class QuestionActive extends React.Component {
     super()
     this.state = {
       answer: '',
-      timer: 10,
+      timer: 5,
       question: {},
       score: 0,
       team: ''
@@ -76,12 +76,12 @@ class QuestionActive extends React.Component {
     return (
       <View style={ styles.container }>
         <View style={ styles.topRow }>
-          <Text>Top Score: XX</Text>
-          <Text>Your Score: {score ? score : 0}</Text>
+          <Text style={{ color: '#27476E' }}>Top Score: XX</Text>
+          <Text style={{ color: '#27476E' }}>Your Score: {score ? score : 0}</Text>
         </View>
         <View style={ styles.questionInfo }>
           <Text style={ [ styles.centerText, styles.questionHeader ]}>Question X</Text>
-          <Text style={ [ styles.centerText, styles.timer, { color: timer < 10 ? 'red' : 'black' } ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
+          <Text style={[styles.centerText, styles.timer, { color: timer < 10 ? '#B81365' : '#27476E' } ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
           <Text style={ [ styles.centerText, styles.questionText ]}>{ onParseHTML(question.question) }</Text>
           {
             answer &&
@@ -89,19 +89,23 @@ class QuestionActive extends React.Component {
           }
         </View>
         <View style={ styles.answers }>
-          <Button
+          <TouchableOpacity
+            style={styles.answerView}
             disabled={!timer || !!answer}
-            title={`${onParseHTML(question.correct_answer)}`}
             onPress={() => onChooseAnswer(question.correct_answer)}
-          />
+          >
+            <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
+          </TouchableOpacity>
           {
             question.incorrect_answers.map((a, idx) => (
-              <Button
-                key={ idx }
-                disabled={ !timer || !!answer }
-                title={`${onParseHTML(a)}`}
+              <TouchableOpacity
+                style={ styles.answerView }
+                key={idx}
+                disabled={!timer || !!answer}
                 onPress={() => onChooseAnswer(a)}
-              />
+              >
+                <Text style={styles.answerButton}>{`${onParseHTML(a)}`}</Text>
+              </TouchableOpacity>
             ))
           }
         </View>
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   questionInfo: {
-    flex: 2,
+    flex: 3,
     alignItems: 'center',
     padding: 20,
     paddingTop: 0
@@ -131,31 +135,54 @@ const styles = StyleSheet.create({
   questionHeader: {
     fontSize: 30,
     fontWeight: 'bold',
-    padding: 10
+    padding: 10,
+    paddingTop: 0,
+    color: '#27476E',
   },
   timer: {
     fontSize: 35,
     fontWeight: 'bold',
-    padding: 10
+    padding: 10,
+    color: '#27476E'
   },
   questionText: {
     fontSize: 18,
-    padding: 10
+    padding: 10,
+    color: '#27476E'
   },
   answers: {
-    flex: 6,
+    flex: 7,
     alignItems: 'center',
     justifyContent: 'space-evenly',
     flexDirection: 'column',
     padding: 10,
+    // maxHeight: 60%,
   },
   centerText: {
     textAlign: 'center'
   },
   selectedAnswer: {
     fontWeight: 'bold',
-    paddingTop: 10
+    padding: 10,
+    fontSize: 18,
+    color: '#ECA400',
   },
+  answerView: {
+    borderRadius: 30,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#006992',
+  },
+  answerButton: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
+  }
 })
 
 export default QuestionActive;
