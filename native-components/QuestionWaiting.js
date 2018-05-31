@@ -41,7 +41,7 @@ class QuestionWaiting extends React.Component {
         {/*<Text style={[ styles.centerText, styles.h2 ]}>Category: XX</Text>*/}
         <Text style={[ styles.centerText, styles.h2 ]}>Starting in:</Text>
         <Text style={[ styles.centerText, styles.timer ]}>:{timer > 9 ? timer : `0${timer}`}</Text>
-        <Text style={[ styles.centerText, styles.score ]}>Your Score: { score }</Text>
+        <Text style={[ styles.centerText, styles.score ]}>Your Score: { score || 0 }</Text>
         <Text style={[ styles.centerText, styles.score ]}>Top Score: X</Text>
       </View>
     )

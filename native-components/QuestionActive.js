@@ -11,7 +11,7 @@ class QuestionActive extends React.Component {
     super()
     this.state = {
       answer: '',
-      timer: 5,
+      timer: 15,
       question: {},
       score: 0,
       team: ''
