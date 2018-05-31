@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingRight: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,

@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: 80,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,

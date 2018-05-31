@@ -13,7 +13,7 @@ class GameOver extends React.Component {
     return (
       <View style={ styles.container }>
         <Text style={ styles.h1} >Thanks for playing!</Text>
-        <Text style={ styles.h2 }>Final Scores</Text>
+        <Text style={ styles.h2 }>Final Scores:</Text>
         <View style={ styles.scroll }>
           <ScrollView>
             {
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 30
+    paddingTop: 30,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 32,
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 5,
     textAlign: 'center',
+    fontWeight: 'bold',
     color: '#27476E',
   },
   scroll: {

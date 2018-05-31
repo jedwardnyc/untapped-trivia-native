@@ -117,6 +117,7 @@ class QuestionActive extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#E7F1F5',
     // // alignItems: 'center'
     // justifyContent: 'center'
   },

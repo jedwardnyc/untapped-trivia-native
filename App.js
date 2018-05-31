@@ -60,7 +60,7 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#E4F4F6',
+    backgroundColor: '#E7F1F5',
     alignItems: 'center',
     paddingTop: 80
     // justifyContent: 'center',
@@ -192,8 +192,8 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    // initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    initialRouteName: 'GameOver',
+    initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
+    // initialRouteName: 'GameOver',
     navigationOptions: {
       headerStyle: { backgroundColor: '#006992' },
       headerTintColor: '#fff'

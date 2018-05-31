@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 80
+    paddingTop: 80,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,

@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     // justifyContent: 'center'
-    paddingTop: 180
+    paddingTop: 180,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 35,
