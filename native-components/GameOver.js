@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { View, StyleSheet, Text, Button, ScrollView, FlatList } from 'react-native';
+import { View, StyleSheet, Text, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { StackActions } from 'react-navigation';
 
 class GameOver extends React.Component {
@@ -23,7 +23,9 @@ class GameOver extends React.Component {
             }
           </ScrollView>
         </View>
-        <Button title="Back Home" onPress={() => this.props.navigation.push('Home')} />
+        <TouchableOpacity style={styles.buttonView} onPress={() => this.props.navigation.push('Home')}>
+          <Text style={styles.buttonButton}>Back home</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -39,19 +41,39 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 32,
     fontWeight: 'bold',
-    paddingBottom: 20
+    paddingBottom: 20,
+    color: '#27476E',
   },
   h2: {
     fontSize: 26,
-    paddingBottom: 20
+    paddingBottom: 20,
+    color: '#27476E',
   },
   scores: {
     fontSize: 18,
     padding: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   },
   scroll: {
     maxHeight: '50%'
+  },
+  buttonView: {
+    borderRadius: 30,
+    width: 160,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#006992',
+  },
+  buttonButton: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
   }
 })
 

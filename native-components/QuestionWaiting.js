@@ -17,7 +17,7 @@ class QuestionWaiting extends React.Component {
     this.setState({ timer: 10 })
     Promise.all([AsyncStorage.getItem('score')])
       .then(([score]) => this.setState({ score }))
-    this.countdown()
+    // this.countdown()
   }
 
   componentWillUnmount() {
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     padding: 25
   },
   centerText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   }
 })
 
