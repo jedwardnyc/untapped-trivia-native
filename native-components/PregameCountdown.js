@@ -65,26 +65,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingRight: 10,
-    paddingLeft: 10
+    paddingLeft: 10,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 80,
-    paddingBottom: 20
+    paddingBottom: 20,
+    color: '#27476E'
   },
   h2: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 20,
-    paddingBottom: 40
+    paddingBottom: 40,
+    color: '#27476E'
   },
   buttonCopy: {
     fontSize: 12,
     padding: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E'
   }
 })
 

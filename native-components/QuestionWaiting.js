@@ -41,7 +41,7 @@ class QuestionWaiting extends React.Component {
         {/*<Text style={[ styles.centerText, styles.h2 ]}>Category: XX</Text>*/}
         <Text style={[ styles.centerText, styles.h2 ]}>Starting in:</Text>
         <Text style={[ styles.centerText, styles.timer ]}>:{timer > 9 ? timer : `0${timer}`}</Text>
-        <Text style={[ styles.centerText, styles.score ]}>Your Score: { score }</Text>
+        <Text style={[ styles.centerText, styles.score ]}>Your Score: { score || 0 }</Text>
         <Text style={[ styles.centerText, styles.score ]}>Top Score: X</Text>
       </View>
     )
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 10,
-    paddingTop: 80
+    paddingTop: 80,
+    backgroundColor: '#E7F1F5',
     // justifyContent: 'center'
   },
   h1: {
@@ -76,7 +77,8 @@ const styles = StyleSheet.create({
     padding: 25
   },
   centerText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   }
 })
 

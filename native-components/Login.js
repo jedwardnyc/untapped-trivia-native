@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: 80,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,
@@ -84,7 +85,8 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     paddingLeft: 10,
     paddingRight: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E'
   },
   buttonContainer: {
     paddingBottom: 40

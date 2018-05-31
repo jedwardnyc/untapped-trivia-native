@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView, AsyncStorage, TouchableOpacity } from 'react-native';
 import socket from '../socket-client';
 window.navigator.userAgent = "react-native";
 
@@ -24,6 +24,7 @@ class ChooseBar extends React.Component {
   render() {
     const { barId } = this.state
     const { onSubmit } = this
+    const noBar = barId.length < 4
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <Text style={ styles.h1 }>Choose your Bar</Text>
@@ -38,7 +39,9 @@ class ChooseBar extends React.Component {
           onChangeText={(barId) => this.setState({ barId })}
           onSubmitEditing={ onSubmit }
         />
-        <Button disabled={barId.length < 4} title="Submit" onPress={ onSubmit } />
+        <TouchableOpacity style={[styles.submitView, { backgroundColor: noBar ? '#4591AF' : '#006992'} ] } disabled={ noBar } title="Submit" onPress={ onSubmit }>
+          <Text style={ styles.submitButton }>Submit</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     )
   }
@@ -48,21 +51,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 80
+    paddingTop: 80,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#27476E'
   },
   h2: {
     fontSize: 20,
-    paddingTop: 20
+    paddingTop: 20,
+    color: '#27476E'
   },
   input: {
     fontSize: 40,
     fontWeight: 'bold',
     paddingTop: 40,
-    paddingBottom: 50
+    paddingBottom: 50,
+    color: '#27476E'
+  },
+  submitView: {
+    borderRadius: 30,
+    width: 160,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#006992',
+  },
+  submitButton: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
   }
 })
 

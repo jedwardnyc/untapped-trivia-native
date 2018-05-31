@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, StatusBar } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 import Info from './native-components/Info';
 import Login from './native-components/Login';
@@ -19,7 +19,9 @@ class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: (
-        <Button title="About" onPress={() => navigation.navigate('Info')} />
+        <TouchableOpacity onPress={() => navigation.navigate('Info')}>
+          <Text style={ styles.about }>About</Text>
+        </TouchableOpacity>
       ),
       // headerRight: (
       //   <Button title="Home" onPress={() => navigation.push('Home')} />
@@ -45,9 +47,11 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <Text style={ styles.h1 }>UnTapped Trivia</Text>
-        <Button onPress={() => this.props.navigation.navigate('Login')} title="Play now" />
-        {/*<Text style={ styles.h2 }>Next game starts at 9:00pm</Text>*/}
+        <TouchableOpacity style={ styles.playView } onPress={() => this.props.navigation.navigate('Login')}>
+          <Text style={ styles.playButton }>Play now</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -56,7 +60,7 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
+    backgroundColor: '#E7F1F5',
     alignItems: 'center',
     paddingTop: 80
     // justifyContent: 'center',
@@ -64,11 +68,37 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 30,
     fontWeight: 'bold',
-    paddingBottom: 35
+    paddingBottom: 35,
+    color: '#27476E'
   },
   h2: {
     fontSize: 20,
     paddingBottom: 35
+  },
+  about: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+    paddingLeft: 8,
+    paddingRight: 8
+  },
+  playView: {
+    borderRadius: 30,
+    width: 160,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#006992',
+  },
+  playButton: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
   }
 });
 
@@ -163,9 +193,10 @@ const MainStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    // initialRouteName: 'Login',
+    // initialRouteName: 'GameOver',
     navigationOptions: {
-      headerStyle: { backgroundColor: 'lightblue' }
+      headerStyle: { backgroundColor: '#006992' },
+      headerTintColor: '#fff'
     }
   }
 )

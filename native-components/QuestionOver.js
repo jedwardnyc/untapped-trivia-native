@@ -55,7 +55,7 @@ class QuestionOver extends React.Component {
         <Text style={[ styles.centerText, styles.copy ]}>{ onParseHTML(question.correct_answer) }</Text>
         <Text style={[ styles.centerText, styles.h2 ]}>Your Answer:</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ answer ? onParseHTML(answer) : 'No answer selected' }</Text>
-        <Text style={[ styles.centerText, styles.h2, styles.final ]}>Your Score: {score}</Text>
+        <Text style={[ styles.centerText, styles.h2, styles.final ]}>Your Score: {score || 0}</Text>
         <Text style={[ styles.centerText, styles.timer ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
 
         {/*<Button title="Next Question" onPress={() => console.log('next')} />*/}
@@ -71,9 +71,11 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     padding: 10,
     paddingTop: 80,
+    backgroundColor: '#E7F1F5',
   },
   centerText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   },
   h1: {
     fontSize: 30,
@@ -93,7 +95,8 @@ const styles = StyleSheet.create({
     paddingTop: 10
   },
   final: {
-    paddingBottom: 40
+    paddingBottom: 40,
+    fontWeight: 'bold'
   }
 })
 

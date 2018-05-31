@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, AsyncStorage, TouchableOpacity } from 'react-native';
 import socket from '../socket-client';
 window.navigator.userAgent = "react-native";
 
@@ -24,6 +24,7 @@ class TeamName extends React.Component {
   render() {
     const { name } = this.state
     const { onSubmit } = this
+    const noName = name.length < 4
     return (
       <KeyboardAvoidingView style={ styles.container} behavior="padding" enabled>
         <Text style={ styles.h1 }>Team Name</Text>
@@ -41,7 +42,9 @@ class TeamName extends React.Component {
           />
         </View>
         <View style={ styles.button }>
-          <Button disabled={ name.length < 4 } title="Submit" onPress={ onSubmit } />
+          <TouchableOpacity style={[styles.submitView, { backgroundColor: noName ? '#4591AF' : '#006992' }]} disabled={noName} title="Submit" onPress={onSubmit}>
+            <Text style={styles.submitButton}>Submit</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     )
@@ -52,22 +55,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 80
+    paddingTop: 80,
+    backgroundColor: '#E7F1F5',
   },
   h1: {
     fontSize: 30,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   },
   h2: {
     fontSize: 20,
     paddingTop: 20,
     paddingBottom: 40,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   },
   input: {
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#27476E',
   },
   inputContainer: {
     paddingTop: 10,
@@ -79,6 +86,23 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingTop: 50
+  },
+  submitView: {
+    borderRadius: 30,
+    width: 160,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: '#006992',
+  },
+  submitButton: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
   }
 })
 
