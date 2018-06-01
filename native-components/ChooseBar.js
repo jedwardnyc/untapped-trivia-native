@@ -1,14 +1,34 @@
 /* eslint-disable */
 import React from 'react';
-import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView, AsyncStorage, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, ScrollView } from 'react-native';
 import socket from '../socket-client';
 window.navigator.userAgent = "react-native";
 
 class ChooseBar extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: (
+        <TouchableOpacity onPress={() => console.log('qr code scan')}>
+          <Text style={{
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: 16,
+            textAlign: 'center',
+            paddingLeft: 8,
+            paddingRight: 8
+          }} >Scan QR Code</Text>
+        </TouchableOpacity>
+      ),
+      // headerRight: (
+      //   <Button title="Home" onPress={() => navigation.push('Home')} />
+      // )
+    }
+  }
   constructor() {
     super()
     this.state = { barId: '' }
     this.onSubmit = this.onSubmit.bind(this)
+    this.onScanQR = this.onScanQR.bind(this)
   }
 
   onSubmit() {
@@ -21,12 +41,16 @@ class ChooseBar extends React.Component {
     this.props.navigation.navigate('TeamName')
   }
 
+  onScanQR() {
+    console.log('qr code scanned!')
+  }
+
   render() {
     const { barId } = this.state
-    const { onSubmit } = this
+    const { onSubmit, onScanQR } = this
     const noBar = barId.length < 4
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <KeyboardAvoidingView style={ styles.container } behavior="padding" enabled>
         <Text style={ styles.h1 }>Choose your Bar</Text>
         <Text style={ styles.h2 }>Enter your Bar ID below</Text>
         <TextInput
@@ -39,7 +63,7 @@ class ChooseBar extends React.Component {
           onChangeText={(barId) => this.setState({ barId })}
           onSubmitEditing={ onSubmit }
         />
-        <TouchableOpacity style={[styles.submitView, { backgroundColor: noBar ? '#4591AF' : '#006992'} ] } disabled={ noBar } title="Submit" onPress={ onSubmit }>
+        <TouchableOpacity style={[ styles.submitView, { backgroundColor: noBar ? '#4591AF' : '#006992'} ]} disabled={ noBar } title="Submit" onPress={ onSubmit }>
           <Text style={ styles.submitButton }>Submit</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -87,6 +111,12 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingTop: 10,
     paddingBottom: 10,
+  },
+  qrcode: {
+    width: 200
+  },
+  spacer: {
+    paddingTop: 50
   }
 })
 
