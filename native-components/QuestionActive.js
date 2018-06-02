@@ -25,8 +25,8 @@ class QuestionActive extends React.Component {
   componentDidMount() {
     let countdownTimer
     socket.emit('request question')
-    socket.on('sending question', ({ index, question }) => {
-      this.setState({ question, questionNumber: index + 1 })
+    socket.on('sending question', ({ index, question, timer }) => {
+      this.setState({ question, questionNumber: index + 1, timer, answer: '' })
     })
     // this.countdown()
     Promise.all([
