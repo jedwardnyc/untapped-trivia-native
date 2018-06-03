@@ -19,11 +19,9 @@ class QuestionOver extends React.Component {
   componentDidMount() {
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
-    socket.once('ready for next question', () => {
-      console.log('going to question active')
-      this.props.navigation.push('QuestionActive')
-    })
+    socket.once('ready for next question', () => this.props.navigation.push('QuestionActive'))
     socket.on('wait timer', (timer) => this.setState({ timer }))
+    socket.once('game has ended', () => this.props.navigation.navigate('GameOver'))
   }
 
   componentWillUnmount() {
@@ -52,8 +50,6 @@ class QuestionOver extends React.Component {
         <Text style={[ styles.centerText, styles.h2, styles.final ]}>Your Score: {score || 0}</Text>
         <Text style={[styles.centerText, styles.h1]}>Next Question in:</Text>
         <Text style={[ styles.centerText, styles.timer ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
-
-        {/*<Button title="Next Question" onPress={() => console.log('next')} />*/}
       </View>
     )
   }

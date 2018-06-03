@@ -26,7 +26,6 @@ class QuestionActive extends React.Component {
       this.setState({ question, questionNumber: index + 1, answer: '' })
     })
     socket.once('waiting for next question', () => {
-      console.log('going to wait')
       this.props.navigation.push('QuestionOver', {
         question: this.state.question,
         answer: this.state.answer,
@@ -37,8 +36,7 @@ class QuestionActive extends React.Component {
     Promise.all([
       AsyncStorage.getItem('score'),
       AsyncStorage.getItem('team_name')
-    ])
-      .then(([ score, team ]) => this.setState({ score, team }))
+    ]).then(([ score, team ]) => this.setState({ score, team }))
   }
 
   componentWillUnmount() {
@@ -89,9 +87,8 @@ class QuestionActive extends React.Component {
           <TouchableOpacity
             style={[styles.answerView, { backgroundColor: noClick ? '#4591AF' : '#006992' }]}
             disabled={ noClick }
-            onPress={() => onChooseAnswer(question.correct_answer)}
-          >
-            <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
+            onPress={() => onChooseAnswer(question.correct_answer)}>
+              <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
           </TouchableOpacity>
           {
             question.incorrect_answers.map((a, idx) => (
@@ -99,9 +96,8 @@ class QuestionActive extends React.Component {
                 style={[styles.answerView, { backgroundColor: noClick? '#4591AF' : '#006992' }]}
                 key={idx}
                 disabled={ noClick }
-                onPress={() => onChooseAnswer(a)}
-              >
-                <Text style={styles.answerButton}>{`${onParseHTML(a)}`}</Text>
+                onPress={() => onChooseAnswer(a)}>
+                  <Text style={styles.answerButton}>{`${onParseHTML(a)}`}</Text>
               </TouchableOpacity>
             ))
           }
