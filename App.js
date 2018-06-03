@@ -12,7 +12,7 @@ import QuestionActive from './native-components/QuestionActive';
 import QuestionOver from './native-components/QuestionOver';
 import QuestionWaiting from './native-components/QuestionWaiting';
 import GameOver from './native-components/GameOver';
-import socket from './socket-client'
+import socket from './socket-client';
 window.navigator.userAgent = "react-native";
 
 class HomeScreen extends React.Component {
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#E7F1F5',
     alignItems: 'center',
     paddingTop: 80
-    // justifyContent: 'center',
   },
   h1: {
     fontSize: 30,
@@ -146,7 +145,7 @@ const MainStack = createStackNavigator(
     ChooseBar: {
       screen: ChooseBar,
       navigationOptions: {
-        title: 'Bar ID'
+        title: 'Bar ID',
       }
     },
     TeamName: {
@@ -192,8 +191,8 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    // initialRouteName: 'GameOver',
+    // initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
+    initialRouteName: 'QuestionActive',
     navigationOptions: {
       headerStyle: { backgroundColor: '#006992' },
       headerTintColor: '#fff'
@@ -210,7 +209,7 @@ const RootStack = createStackNavigator(
   {
     Main: MainStack,
     // GamePlay: GameStack,
-    Info: Info
+    Info: Info,
   },
   {
     mode: 'modal',

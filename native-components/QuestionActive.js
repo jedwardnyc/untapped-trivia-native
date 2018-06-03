@@ -14,7 +14,8 @@ class QuestionActive extends React.Component {
       timer: 15,
       question: {},
       score: 0,
-      team: ''
+      team: '',
+      questionNumber: 0
     }
     this.countdown = this.countdown.bind(this)
     this.onChooseAnswer = this.onChooseAnswer.bind(this)
@@ -24,11 +25,10 @@ class QuestionActive extends React.Component {
   componentDidMount() {
     let countdownTimer
     socket.emit('request question')
-    socket.on('send question', (question) => this.setState({ question: question.results[0]}))
-    this.countdown()
-    // axios.get('http://localhost:3000/v1/api/')
-    //   .then( res => res.data)
-    //   .then( question => this.setState({ question: question.results[0] }))
+    socket.on('sending question', ({ index, question, timer }) => {
+      this.setState({ question, questionNumber: index + 1, timer, answer: '' })
+    })
+    // this.countdown()
     Promise.all([
       AsyncStorage.getItem('score'),
       AsyncStorage.getItem('team_name')
@@ -70,9 +70,10 @@ class QuestionActive extends React.Component {
   }
 
   render() {
-    const { timer, answer, question, score } = this.state
+    const { timer, answer, question, score, questionNumber } = this.state
     const { onChooseAnswer, onParseHTML } = this
-    if (!question.type) return null
+    if (!question.question) return null
+    console.log(questionNumber)
     return (
       <View style={ styles.container }>
         <View style={ styles.topRow }>
@@ -80,7 +81,7 @@ class QuestionActive extends React.Component {
           <Text style={{ color: '#27476E' }}>Your Score: {score ? score : 0}</Text>
         </View>
         <View style={ styles.questionInfo }>
-          <Text style={ [ styles.centerText, styles.questionHeader ]}>Question X</Text>
+          <Text style={ [ styles.centerText, styles.questionHeader ]}>Question { questionNumber }</Text>
           <Text style={[styles.centerText, styles.timer, { color: timer < 10 ? '#B81365' : '#27476E' } ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
           <Text style={ [ styles.centerText, styles.questionText ]}>{ onParseHTML(question.question) }</Text>
           {
