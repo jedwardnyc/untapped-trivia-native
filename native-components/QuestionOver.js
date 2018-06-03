@@ -13,33 +13,21 @@ class QuestionOver extends React.Component {
       timer: 10,
       score: 0
     }
-    this.countdown = this.countdown.bind(this)
     this.onParseHTML = this.onParseHTML.bind(this)
   }
 
   componentDidMount() {
-    let countdownTimer
-    this.setState({ timer: 10 })
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
-    // this.countdown()
     socket.once('ready for next question', () => {
       console.log('going to question active')
       this.props.navigation.push('QuestionActive')
     })
+    socket.on('wait timer', (timer) => this.setState({ timer }))
   }
 
   componentWillUnmount() {
-    clearTimeout(countdownTimer)
-  }
-
-  countdown() {
-    let { timer } = this.state
-    if (timer) {
-      this.setState({ timer: timer - 1 })
-      countdownTimer = setTimeout(() => this.countdown(), 1000)
-    }
-    // else { this.props.navigation.push('QuestionActive') }
+    socket.off('wait timer')
   }
 
   onParseHTML(str) {
@@ -51,11 +39,11 @@ class QuestionOver extends React.Component {
 
   render() {
     const { timer, score } = this.state
-    const { answer, question } = this.props.navigation.state.params
+    const { answer, question, questionNumber } = this.props.navigation.state.params
     const { onParseHTML } = this
     return (
       <View style={ styles.container }>
-        <Text style={[ styles.centerText, styles.h1 ]}>Question X</Text>
+        <Text style={[ styles.centerText, styles.h1 ]}>Question { questionNumber }</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ onParseHTML(question.question) }</Text>
         <Text style={[ styles.centerText, styles.h2 ]}>Correct Answer:</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ onParseHTML(question.correct_answer) }</Text>

@@ -11,50 +11,39 @@ class QuestionActive extends React.Component {
     super()
     this.state = {
       answer: '',
-      timer: 15,
+      timer: 10,
       question: {},
       score: 0,
       team: '',
       questionNumber: 0
     }
-    this.countdown = this.countdown.bind(this)
     this.onChooseAnswer = this.onChooseAnswer.bind(this)
     this.onParseHTML = this.onParseHTML.bind(this)
   }
 
   componentDidMount() {
-    let countdownTimer
     socket.emit('request question')
-    socket.once('sending question', ({ index, question, timer }) => {
-      this.setState({ question, questionNumber: index + 1, timer, answer: '' })
+    socket.once('sending question', ({ index, question }) => {
+      this.setState({ question, questionNumber: index + 1, answer: '' })
     })
     socket.once('waiting for next question', () => {
       console.log('going to wait')
       this.props.navigation.push('QuestionOver', {
         question: this.state.question,
-        answer: this.state.answer
+        answer: this.state.answer,
+        questionNumber: this.state.questionNumber
       })
     })
+    socket.on('question timer', (timer) => this.setState({ timer }))
     Promise.all([
       AsyncStorage.getItem('score'),
       AsyncStorage.getItem('team_name')
     ])
       .then(([ score, team ]) => this.setState({ score, team }))
-    // this.countdown()
   }
 
   componentWillUnmount() {
-    clearTimeout(countdownTimer)
-    socket.removeAllListeners()
-  }
-
-  countdown() {
-    let { timer, question, answer } = this.state
-    if (timer) {
-      this.setState({ timer: timer - 1 })
-      countdownTimer = setTimeout(() => this.countdown(), 1000)
-    }
-    // else { this.props.navigation.push('QuestionOver', { question, answer }) }
+    socket.off('question timer')
   }
 
   onChooseAnswer(answer) {
@@ -82,7 +71,6 @@ class QuestionActive extends React.Component {
     const { onChooseAnswer, onParseHTML } = this
     const noClick = !timer || !!answer
     if (!question.question) return null
-    // console.log(questionNumber)
     return (
       <View style={ styles.container }>
         <View style={ styles.topRow }>

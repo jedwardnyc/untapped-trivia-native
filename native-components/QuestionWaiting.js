@@ -2,6 +2,12 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, AsyncStorage } from 'react-native';
 
+/*
+
+NOT BEING USED ANYMORE
+
+*/
+
 class QuestionWaiting extends React.Component {
   constructor() {
     super()
