@@ -22,7 +22,6 @@ class QuestionActive extends React.Component {
   }
 
   componentDidMount() {
-    socket.emit('request question')
     socket.once('sending question', ({ index, question }) => {
       this.setState({ question, questionNumber: index + 1, answer: '' })
     })
