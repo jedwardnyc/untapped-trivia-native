@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React from 'react';
 import { View, Text, StyleSheet, Button, AsyncStorage } from 'react-native';
+import socket from '../socket-client'
+window.navigator.userAgent = "react-native";
 
 class PregameCountdown extends React.Component {
   constructor() {
@@ -24,6 +26,9 @@ class PregameCountdown extends React.Component {
     ])
     .then(([ user, bar, team ]) => {
       console.log('ASYNC STORAGE:', '\n', 'user: ', user, '\n', 'bar id: ', bar, '\n', 'team name: ', team)
+    })
+    socket.on('game started', () => {
+      this.props.navigation.navigate('QuestionActive')
     })
   }
 

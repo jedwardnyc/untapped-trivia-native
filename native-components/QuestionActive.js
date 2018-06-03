@@ -50,9 +50,9 @@ class QuestionActive extends React.Component {
   }
 
   onChooseAnswer(answer) {
-    const { question, team } = this.state
+    const { question, team, score } = this.state
     this.setState({ answer })
-    socket.emit('answer', { answer, team })
+    socket.emit('answer', { answer, team, score })
     if (answer === question.correct_answer) {
       Promise.all([AsyncStorage.getItem('score')])
         .then(([ score ]) => {

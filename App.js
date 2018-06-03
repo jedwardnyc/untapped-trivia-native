@@ -192,7 +192,7 @@ const MainStack = createStackNavigator(
   },
   {
     // initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    initialRouteName: 'QuestionActive',
+    initialRouteName: 'TeamName',
     navigationOptions: {
       headerStyle: { backgroundColor: '#006992' },
       headerTintColor: '#fff'
