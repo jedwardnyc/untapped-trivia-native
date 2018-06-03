@@ -3,6 +3,8 @@ import React from 'react';
 import { View, StyleSheet, Text, Button, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import DOMParser from 'react-native-html-parser';
+import socket from '../socket-client'
+window.navigator.userAgent = "react-native";
 
 class QuestionOver extends React.Component {
   constructor() {
@@ -18,9 +20,13 @@ class QuestionOver extends React.Component {
   componentDidMount() {
     let countdownTimer
     this.setState({ timer: 10 })
-    this.countdown()
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
+    // this.countdown()
+    socket.once('ready for next question', () => {
+      console.log('going to question active')
+      this.props.navigation.push('QuestionActive')
+    })
   }
 
   componentWillUnmount() {
@@ -33,7 +39,7 @@ class QuestionOver extends React.Component {
       this.setState({ timer: timer - 1 })
       countdownTimer = setTimeout(() => this.countdown(), 1000)
     }
-    else { this.props.navigation.push('QuestionWaiting') }
+    // else { this.props.navigation.push('QuestionActive') }
   }
 
   onParseHTML(str) {
@@ -56,6 +62,7 @@ class QuestionOver extends React.Component {
         <Text style={[ styles.centerText, styles.h2 ]}>Your Answer:</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ answer ? onParseHTML(answer) : 'No answer selected' }</Text>
         <Text style={[ styles.centerText, styles.h2, styles.final ]}>Your Score: {score || 0}</Text>
+        <Text style={[styles.centerText, styles.h1]}>Next Question in:</Text>
         <Text style={[ styles.centerText, styles.timer ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
 
         {/*<Button title="Next Question" onPress={() => console.log('next')} />*/}

@@ -36,7 +36,7 @@ class TeamName extends React.Component {
             autoFocus
             value={ name }
             placeholder="Team name"
-            maxLength={ 25}
+            maxLength={25}
             onSubmitEditing={ onSubmit }
             autoCapitalize="words"
           />

@@ -25,19 +25,27 @@ class QuestionActive extends React.Component {
   componentDidMount() {
     let countdownTimer
     socket.emit('request question')
-    socket.on('sending question', ({ index, question, timer }) => {
+    socket.once('sending question', ({ index, question, timer }) => {
       this.setState({ question, questionNumber: index + 1, timer, answer: '' })
     })
-    // this.countdown()
+    socket.once('waiting for next question', () => {
+      console.log('going to wait')
+      this.props.navigation.push('QuestionOver', {
+        question: this.state.question,
+        answer: this.state.answer
+      })
+    })
     Promise.all([
       AsyncStorage.getItem('score'),
       AsyncStorage.getItem('team_name')
-      ])
+    ])
       .then(([ score, team ]) => this.setState({ score, team }))
+    // this.countdown()
   }
 
   componentWillUnmount() {
     clearTimeout(countdownTimer)
+    socket.removeAllListeners()
   }
 
   countdown() {
@@ -46,7 +54,7 @@ class QuestionActive extends React.Component {
       this.setState({ timer: timer - 1 })
       countdownTimer = setTimeout(() => this.countdown(), 1000)
     }
-    else { this.props.navigation.push('QuestionOver', { question, answer }) }
+    // else { this.props.navigation.push('QuestionOver', { question, answer }) }
   }
 
   onChooseAnswer(answer) {
@@ -72,8 +80,9 @@ class QuestionActive extends React.Component {
   render() {
     const { timer, answer, question, score, questionNumber } = this.state
     const { onChooseAnswer, onParseHTML } = this
+    const noClick = !timer || !!answer
     if (!question.question) return null
-    console.log(questionNumber)
+    // console.log(questionNumber)
     return (
       <View style={ styles.container }>
         <View style={ styles.topRow }>
@@ -91,8 +100,8 @@ class QuestionActive extends React.Component {
         </View>
         <View style={ styles.answers }>
           <TouchableOpacity
-            style={styles.answerView}
-            disabled={!timer || !!answer}
+            style={[styles.answerView, { backgroundColor: noClick ? '#4591AF' : '#006992' }]}
+            disabled={ noClick }
             onPress={() => onChooseAnswer(question.correct_answer)}
           >
             <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
@@ -100,9 +109,9 @@ class QuestionActive extends React.Component {
           {
             question.incorrect_answers.map((a, idx) => (
               <TouchableOpacity
-                style={ styles.answerView }
+                style={[styles.answerView, { backgroundColor: noClick? '#4591AF' : '#006992' }]}
                 key={idx}
-                disabled={!timer || !!answer}
+                disabled={ noClick }
                 onPress={() => onChooseAnswer(a)}
               >
                 <Text style={styles.answerButton}>{`${onParseHTML(a)}`}</Text>
