@@ -11,48 +11,42 @@ class QuestionActive extends React.Component {
     super()
     this.state = {
       answer: '',
-      timer: 15,
+      timer: 10,
       question: {},
       score: 0,
       team: '',
       questionNumber: 0
     }
-    this.countdown = this.countdown.bind(this)
     this.onChooseAnswer = this.onChooseAnswer.bind(this)
     this.onParseHTML = this.onParseHTML.bind(this)
   }
 
   componentDidMount() {
-    let countdownTimer
-    socket.emit('request question')
-    socket.on('sending question', ({ index, question, timer }) => {
-      this.setState({ question, questionNumber: index + 1, timer, answer: '' })
+    socket.once('sending question', ({ index, question }) => {
+      this.setState({ question, questionNumber: index + 1, answer: '' })
     })
-    // this.countdown()
+    socket.once('waiting for next question', () => {
+      this.props.navigation.push('QuestionOver', {
+        question: this.state.question,
+        answer: this.state.answer,
+        questionNumber: this.state.questionNumber
+      })
+    })
+    socket.on('question timer', (timer) => this.setState({ timer }))
     Promise.all([
       AsyncStorage.getItem('score'),
       AsyncStorage.getItem('team_name')
-      ])
-      .then(([ score, team ]) => this.setState({ score, team }))
+    ]).then(([ score, team ]) => this.setState({ score, team }))
   }
 
   componentWillUnmount() {
-    clearTimeout(countdownTimer)
-  }
-
-  countdown() {
-    let { timer, question, answer } = this.state
-    if (timer) {
-      this.setState({ timer: timer - 1 })
-      countdownTimer = setTimeout(() => this.countdown(), 1000)
-    }
-    else { this.props.navigation.push('QuestionOver', { question, answer }) }
+    socket.off('question timer')
   }
 
   onChooseAnswer(answer) {
-    const { question, team } = this.state
+    const { question, team, score } = this.state
     this.setState({ answer })
-    socket.emit('answer', { answer, team })
+    socket.emit('answer', { answer, team, score })
     if (answer === question.correct_answer) {
       Promise.all([AsyncStorage.getItem('score')])
         .then(([ score ]) => {
@@ -72,8 +66,8 @@ class QuestionActive extends React.Component {
   render() {
     const { timer, answer, question, score, questionNumber } = this.state
     const { onChooseAnswer, onParseHTML } = this
+    const noClick = !timer || !!answer
     if (!question.question) return null
-    console.log(questionNumber)
     return (
       <View style={ styles.container }>
         <View style={ styles.topRow }>
@@ -91,21 +85,19 @@ class QuestionActive extends React.Component {
         </View>
         <View style={ styles.answers }>
           <TouchableOpacity
-            style={styles.answerView}
-            disabled={!timer || !!answer}
-            onPress={() => onChooseAnswer(question.correct_answer)}
-          >
-            <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
+            style={[styles.answerView, { backgroundColor: noClick ? '#4591AF' : '#006992' }]}
+            disabled={ noClick }
+            onPress={() => onChooseAnswer(question.correct_answer)}>
+              <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
           </TouchableOpacity>
           {
             question.incorrect_answers.map((a, idx) => (
               <TouchableOpacity
-                style={ styles.answerView }
+                style={[styles.answerView, { backgroundColor: noClick? '#4591AF' : '#006992' }]}
                 key={idx}
-                disabled={!timer || !!answer}
-                onPress={() => onChooseAnswer(a)}
-              >
-                <Text style={styles.answerButton}>{`${onParseHTML(a)}`}</Text>
+                disabled={ noClick }
+                onPress={() => onChooseAnswer(a)}>
+                  <Text style={styles.answerButton}>{`${onParseHTML(a)}`}</Text>
               </TouchableOpacity>
             ))
           }

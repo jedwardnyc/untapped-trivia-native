@@ -3,6 +3,8 @@ import React from 'react';
 import { View, StyleSheet, Text, Button, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import DOMParser from 'react-native-html-parser';
+import socket from '../socket-client'
+window.navigator.userAgent = "react-native";
 
 class QuestionOver extends React.Component {
   constructor() {
@@ -11,29 +13,19 @@ class QuestionOver extends React.Component {
       timer: 10,
       score: 0
     }
-    this.countdown = this.countdown.bind(this)
     this.onParseHTML = this.onParseHTML.bind(this)
   }
 
   componentDidMount() {
-    let countdownTimer
-    this.setState({ timer: 10 })
-    this.countdown()
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
+    socket.once('ready for next question', () => this.props.navigation.push('QuestionActive'))
+    socket.on('wait timer', (timer) => this.setState({ timer }))
+    socket.once('game has ended', () => this.props.navigation.navigate('GameOver'))
   }
 
   componentWillUnmount() {
-    clearTimeout(countdownTimer)
-  }
-
-  countdown() {
-    let { timer } = this.state
-    if (timer) {
-      this.setState({ timer: timer - 1 })
-      countdownTimer = setTimeout(() => this.countdown(), 1000)
-    }
-    else { this.props.navigation.push('QuestionWaiting') }
+    socket.off('wait timer')
   }
 
   onParseHTML(str) {
@@ -45,20 +37,19 @@ class QuestionOver extends React.Component {
 
   render() {
     const { timer, score } = this.state
-    const { answer, question } = this.props.navigation.state.params
+    const { answer, question, questionNumber } = this.props.navigation.state.params
     const { onParseHTML } = this
     return (
       <View style={ styles.container }>
-        <Text style={[ styles.centerText, styles.h1 ]}>Question X</Text>
+        <Text style={[ styles.centerText, styles.h1 ]}>Question { questionNumber }</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ onParseHTML(question.question) }</Text>
         <Text style={[ styles.centerText, styles.h2 ]}>Correct Answer:</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ onParseHTML(question.correct_answer) }</Text>
         <Text style={[ styles.centerText, styles.h2 ]}>Your Answer:</Text>
         <Text style={[ styles.centerText, styles.copy ]}>{ answer ? onParseHTML(answer) : 'No answer selected' }</Text>
         <Text style={[ styles.centerText, styles.h2, styles.final ]}>Your Score: {score || 0}</Text>
+        <Text style={[styles.centerText, styles.h1]}>Next Question in:</Text>
         <Text style={[ styles.centerText, styles.timer ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
-
-        {/*<Button title="Next Question" onPress={() => console.log('next')} />*/}
       </View>
     )
   }
