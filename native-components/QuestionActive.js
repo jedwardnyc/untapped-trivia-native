@@ -4,8 +4,6 @@ import { View, StyleSheet, Text, Button, AsyncStorage, TouchableOpacity } from '
 import axios from 'axios';
 import he from 'he';
 import socket from '../socket-client';
-import chance from 'chance'
-const Chance = chance.Chance()
 window.navigator.userAgent = "react-native";
 
 class QuestionActive extends React.Component {
