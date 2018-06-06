@@ -10,7 +10,7 @@ class QuestionOver extends React.Component {
   constructor() {
     super()
     this.state = {
-      timer: 10,
+      timer: 5,
       score: 0
     }
     this.onParseHTML = this.onParseHTML.bind(this)
@@ -19,7 +19,9 @@ class QuestionOver extends React.Component {
   componentDidMount() {
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
-    socket.once('ready for next question', () => this.props.navigation.push('QuestionActive'))
+    socket.once('ready for next question', (index) => {
+      if (index < 9) this.props.navigation.push('QuestionActive')
+    })
     socket.on('wait timer', (timer) => this.setState({ timer }))
     socket.once('game has ended', () => this.props.navigation.navigate('GameOver'))
   }

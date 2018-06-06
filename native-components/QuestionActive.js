@@ -73,7 +73,7 @@ class QuestionActive extends React.Component {
         </View>
         <View style={ styles.questionInfo }>
           <Text style={ [ styles.centerText, styles.questionHeader ]}>Question { questionNumber }</Text>
-          <Text style={[styles.centerText, styles.timer, { color: timer < 10 ? '#B81365' : '#27476E' } ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
+          <Text style={[styles.centerText, styles.timer, { color: timer < 4 ? '#B81365' : '#27476E' } ]}>:{ timer > 9 ? timer : `0${timer}` }</Text>
           <Text style={ [ styles.centerText, styles.questionText ]}>{ onParseHTML(question.question) }</Text>
           {
             answer &&
