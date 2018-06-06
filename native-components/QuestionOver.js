@@ -2,8 +2,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, Button, AsyncStorage } from 'react-native';
 import axios from 'axios';
-import DOMParser from 'react-native-html-parser';
-import socket from '../socket-client'
+import socket from '../socket-client';
+import he from 'he';
 window.navigator.userAgent = "react-native";
 
 class QuestionOver extends React.Component {
@@ -29,10 +29,7 @@ class QuestionOver extends React.Component {
   }
 
   onParseHTML(str) {
-    const html = `<div>${str}</div>`
-    const parser = new DOMParser.DOMParser()
-    const parsed = parser.parseFromString(html, 'text/html')
-    return parsed.childNodes[0].childNodes[0].data
+    return he.decode(`${str}`)
   }
 
   render() {

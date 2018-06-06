@@ -2,8 +2,10 @@
 import React from 'react';
 import { View, StyleSheet, Text, Button, AsyncStorage, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import DOMParser from 'react-native-html-parser';
-import socket from '../socket-client'
+import he from 'he';
+import socket from '../socket-client';
+import chance from 'chance'
+const Chance = chance.Chance()
 window.navigator.userAgent = "react-native";
 
 class QuestionActive extends React.Component {
@@ -57,10 +59,7 @@ class QuestionActive extends React.Component {
   }
 
   onParseHTML(str) {
-    const html = `<div>${str}</div>`
-    const parser = new DOMParser.DOMParser()
-    const parsed = parser.parseFromString(html, 'text/html')
-    return parsed.childNodes[0].childNodes[0].data
+    return he.decode(`${str}`)
   }
 
   render() {
@@ -84,14 +83,8 @@ class QuestionActive extends React.Component {
           }
         </View>
         <View style={ styles.answers }>
-          <TouchableOpacity
-            style={[styles.answerView, { backgroundColor: noClick ? '#4591AF' : '#006992' }]}
-            disabled={ noClick }
-            onPress={() => onChooseAnswer(question.correct_answer)}>
-              <Text style={styles.answerButton}>{`${onParseHTML(question.correct_answer)}`}</Text>
-          </TouchableOpacity>
           {
-            question.incorrect_answers.map((a, idx) => (
+            question.answers.map((a, idx) => (
               <TouchableOpacity
                 style={[styles.answerView, { backgroundColor: noClick? '#4591AF' : '#006992' }]}
                 key={idx}
@@ -111,8 +104,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E7F1F5',
-    // // alignItems: 'center'
-    // justifyContent: 'center'
   },
   topRow: {
     flex: 1,
@@ -123,7 +114,9 @@ const styles = StyleSheet.create({
   questionInfo: {
     flex: 3,
     alignItems: 'center',
-    padding: 20,
+    paddingRight: 10,
+    paddingLeft: 10,
+    paddingBottom: 10,
     paddingTop: 0
   },
   questionHeader: {
@@ -145,12 +138,12 @@ const styles = StyleSheet.create({
     color: '#27476E'
   },
   answers: {
-    flex: 7,
+    flex: 5,
     alignItems: 'center',
     justifyContent: 'space-evenly',
     flexDirection: 'column',
-    padding: 10,
-    // maxHeight: 60%,
+    paddingRight: 10,
+    paddingLeft: 10
   },
   centerText: {
     textAlign: 'center'
@@ -159,7 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
     fontSize: 18,
-    color: '#ECA400',
+    color: '#E56E00',
   },
   answerView: {
     borderRadius: 30,

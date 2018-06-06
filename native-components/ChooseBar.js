@@ -42,7 +42,8 @@ class ChooseBar extends React.Component {
   }
 
   onScanQR() {
-    console.log('qr code scanned!')
+    console.log('qr scanned!')
+    // this.props.navigation.navigate('Camera')
   }
 
   render() {
