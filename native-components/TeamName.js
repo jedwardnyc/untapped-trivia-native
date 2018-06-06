@@ -13,10 +13,13 @@ class TeamName extends React.Component {
 
   onSubmit() {
     const { name } = this.state
-    socket.emit('team-name', name)
-    socket.on('team register', (team) => {
-      console.log(`component from socket: team ${team}`)
-    })
+    Promise.all([ AsyncStorage.getItem('bar_id') ])
+      .then(([ bar_id ]) => {
+        socket.emit('choose team name', { name, bar_id })
+        socket.on('team register', (name) => {
+          console.log(`component from socket: team ${name}`)
+        })
+      })
     AsyncStorage.setItem('team_name', name)
     this.props.navigation.navigate('PregameCountdown', { name })
   }
