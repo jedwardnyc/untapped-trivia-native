@@ -158,7 +158,8 @@ const MainStack = createStackNavigator(
     PregameCountdown: {
       screen: PregameCountdown,
       navigationOptions: {
-        title: 'Next Game'
+        title: 'Next Game',
+        headerLeft: null
       }
     },
     // GamePlay: GameStack,

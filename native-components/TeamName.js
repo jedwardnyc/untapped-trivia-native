@@ -49,6 +49,7 @@ class TeamName extends React.Component {
             <Text style={styles.submitButton}>Submit</Text>
           </TouchableOpacity>
         </View>
+        <Text style={ styles.h3 }>Be careful: once you submit, no edits</Text>
       </KeyboardAvoidingView>
     )
   }
@@ -71,6 +72,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 20,
     paddingBottom: 40,
+    textAlign: 'center',
+    color: '#27476E',
+  },
+  h3: {
+    fontSize: 14,
+    paddingTop: 20,
     textAlign: 'center',
     color: '#27476E',
   },
