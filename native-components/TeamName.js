@@ -11,12 +11,22 @@ class TeamName extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentDidMount() {
+    socket.emit('get bar name')
+    socket.once('sending bar name', (bar) => {
+      AsyncStorage.setItem('bar_name', bar.name)
+    })
+  }
+
   onSubmit() {
     const { name } = this.state
-    socket.emit('team-name', name)
-    socket.on('team register', (team) => {
-      console.log(`component from socket: team ${team}`)
-    })
+    Promise.all([ AsyncStorage.getItem('bar_id') ])
+      .then(([ bar_id ]) => {
+        socket.emit('choose team name', { name, bar_id })
+        socket.on('team register', (name) => {
+          console.log(`component from socket: team ${name}`)
+        })
+      })
     AsyncStorage.setItem('team_name', name)
     this.props.navigation.navigate('PregameCountdown', { name })
   }
@@ -46,6 +56,7 @@ class TeamName extends React.Component {
             <Text style={styles.submitButton}>Submit</Text>
           </TouchableOpacity>
         </View>
+        <Text style={ styles.h3 }>Be careful: once you submit, no edits</Text>
       </KeyboardAvoidingView>
     )
   }
@@ -68,6 +79,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 20,
     paddingBottom: 40,
+    textAlign: 'center',
+    color: '#27476E',
+  },
+  h3: {
+    fontSize: 14,
+    paddingTop: 20,
     textAlign: 'center',
     color: '#27476E',
   },

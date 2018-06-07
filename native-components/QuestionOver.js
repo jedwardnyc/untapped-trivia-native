@@ -2,15 +2,15 @@
 import React from 'react';
 import { View, StyleSheet, Text, Button, AsyncStorage } from 'react-native';
 import axios from 'axios';
-import DOMParser from 'react-native-html-parser';
-import socket from '../socket-client'
+import socket from '../socket-client';
+import he from 'he';
 window.navigator.userAgent = "react-native";
 
 class QuestionOver extends React.Component {
   constructor() {
     super()
     this.state = {
-      timer: 10,
+      timer: 5,
       score: 0
     }
     this.onParseHTML = this.onParseHTML.bind(this)
@@ -19,7 +19,9 @@ class QuestionOver extends React.Component {
   componentDidMount() {
     Promise.all([ AsyncStorage.getItem('score') ])
       .then(([ score ]) => this.setState({ score }))
-    socket.once('ready for next question', () => this.props.navigation.push('QuestionActive'))
+    socket.once('ready for next question', (index) => {
+      if (index < 9) this.props.navigation.push('QuestionActive')
+    })
     socket.on('wait timer', (timer) => this.setState({ timer }))
     socket.once('game has ended', () => this.props.navigation.navigate('GameOver'))
   }
@@ -29,10 +31,7 @@ class QuestionOver extends React.Component {
   }
 
   onParseHTML(str) {
-    const html = `<div>${str}</div>`
-    const parser = new DOMParser.DOMParser()
-    const parsed = parser.parseFromString(html, 'text/html')
-    return parsed.childNodes[0].childNodes[0].data
+    return he.decode(`${str}`)
   }
 
   render() {

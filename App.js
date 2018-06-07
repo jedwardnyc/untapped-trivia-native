@@ -12,6 +12,7 @@ import QuestionActive from './native-components/QuestionActive';
 import QuestionOver from './native-components/QuestionOver';
 import QuestionWaiting from './native-components/QuestionWaiting';
 import GameOver from './native-components/GameOver';
+// import CameraView from './native-components/Camera';
 import socket from './socket-client';
 window.navigator.userAgent = "react-native";
 
@@ -157,7 +158,8 @@ const MainStack = createStackNavigator(
     PregameCountdown: {
       screen: PregameCountdown,
       navigationOptions: {
-        title: 'Next Game'
+        title: 'Next Game',
+        headerLeft: null
       }
     },
     // GamePlay: GameStack,
@@ -188,11 +190,14 @@ const MainStack = createStackNavigator(
         title: 'Game Over',
         headerLeft: null
       }
-    }
+    },
+    // Camera: {
+    //   screen: CameraView
+    // }
   },
   {
     // initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    initialRouteName: 'QuestionActive',
+    initialRouteName: 'ChooseBar',
     navigationOptions: {
       headerStyle: { backgroundColor: '#006992' },
       headerTintColor: '#fff'

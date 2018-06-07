@@ -11,6 +11,7 @@ class PregameCountdown extends React.Component {
       hours: '',
       minutes: '',
       seconds: '',
+      bar_name: ''
     }
     this.countdown = this.countdown.bind(this)
   }
@@ -22,10 +23,12 @@ class PregameCountdown extends React.Component {
       AsyncStorage.getItem('user'),
       AsyncStorage.getItem('bar_id'),
       AsyncStorage.getItem('team_name'),
+      AsyncStorage.getItem('bar_name'),
       AsyncStorage.removeItem('score')
     ])
-    .then(([ user, bar, team ]) => {
-      console.log('ASYNC STORAGE:', '\n', 'user: ', user, '\n', 'bar id: ', bar, '\n', 'team name: ', team)
+    .then(([ user, bar_id, team, bar_name ]) => {
+      this.setState({ bar_name})
+      // console.log('ASYNC STORAGE:', '\n', 'user: ', user, '\n', 'bar id: ', bar_id, '\n', 'team name: ', team)
     })
     socket.on('game started', () => {
       this.props.navigation.navigate('QuestionActive')
@@ -49,13 +52,14 @@ class PregameCountdown extends React.Component {
   }
 
   render() {
-    const { hours, minutes, seconds } = this.state
+    const { hours, minutes, seconds, bar_name } = this.state
     const { name } = this.props.navigation.state.params
     const noGame = hours * 1 > 0 || minutes * 1 > 5
     const timer = `${hours * 1 > 9 ? hours : `0${ hours }`}:${minutes * 1 > 9 ? minutes : `0${ minutes }`}:${seconds * 1 > 9 ? seconds : `0${ seconds }`}`
     return (
       <View style={ styles.container }>
         <Text style={ styles.h1 }>Team { name }</Text>
+        <Text style={styles.h2}>You are connected to{'\n'}{bar_name}</Text>
         <Text style={ styles.h2 }>Game starts in{`\n`}{ timer }</Text>
         {/* would be not button in final version, but need a way to create the game when testing */}
         <Button title="Start game!" onPress={() => this.props.navigation.navigate('QuestionActive')} />
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 20,
-    paddingBottom: 40,
+    paddingBottom: 10,
     color: '#27476E'
   },
   buttonCopy: {

@@ -1,20 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import Camera from 'react-native-camera';
 
-class Camera extends React.Component {
+class CameraView extends React.Component {
   render() {
     return (
       <View>
-      <RNCamera
-        ref={ref => this.camera = ref}
-        style = {styles.preview}
-        type={RNCamera.Constants.Type.back}
-        flashMode={RNCamera.Constants.FlashMode.on}
-        permissionDialogTitle={'Permission to use camera'}
-        permissionDialogMessage={'We need your permission to use your camera phone'}
-        />
-        <Button title="take picture" />
+        <Camera
+          ref={(cam) => {
+            this.camera = cam;
+          }}
+          style={styles.preview}
+          aspect={Camera.constants.Aspect.fill}>
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>
+            [CAPTURE]
+       </Text>
+        </Camera>
       </View>
     )
   }
@@ -37,4 +38,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Camera;
+export default CameraView;
