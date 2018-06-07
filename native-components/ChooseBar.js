@@ -34,9 +34,6 @@ class ChooseBar extends React.Component {
   onSubmit() {
     const { barId } = this.state
     socket.emit('choose bar', barId)
-    socket.on('bar register', (bar) => {
-      console.log(`component from socket: bar id: ${bar}`)
-    })
     AsyncStorage.setItem('bar_id', barId)
     this.props.navigation.navigate('TeamName')
   }
