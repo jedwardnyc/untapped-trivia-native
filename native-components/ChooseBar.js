@@ -6,22 +6,6 @@ import axios from 'axios';
 window.navigator.userAgent = "react-native";
 
 class ChooseBar extends React.Component {
-  // static navigationOptions = (props) => {
-  //   return {
-  //     headerRight: (
-  //       <TouchableOpacity onPress={() => props.navigation.navigate('QRScanner', { scanQR: props })}>
-  //         <Text style={{
-  //           color: '#fff',
-  //           fontWeight: 'bold',
-  //           fontSize: 16,
-  //           textAlign: 'center',
-  //           paddingLeft: 8,
-  //           paddingRight: 8
-  //         }} >Scan QR Code</Text>
-  //       </TouchableOpacity>
-  //     ),
-  //   }
-  // }
   constructor() {
     super()
     this.state = { 
@@ -60,40 +44,43 @@ class ChooseBar extends React.Component {
   }
 
   onSubmit() {
-    console.log('Bar id:', this.state.barId)
-    const { barId } = this.state
-    socket.emit('choose bar', barId)
-    AsyncStorage.setItem('bar_id', barId)
-    this.props.navigation.navigate('TeamName')
+    const { barId, bars } = this.state
+    const bar_name = bars.find(bar => barId === bar.id).name
+    Promise.all([
+      AsyncStorage.setItem('bar_id', barId),
+      AsyncStorage.setItem('bar_name', bar_name)
+    ])
+    .then(()=> {
+      socket.emit('choose bar', barId)
+      this.props.navigation.navigate('TeamName')
+    })
   }
 
   onScanQR(bar) {
-    console.log('qr scanned!', bar)
-    this.setState({ barId: bar.data })
+    Promise.all([this.setState({ barId: bar.data })])
+      .then(() =>this.onSubmit());
   }
 
   render() {
     const { barId, longitude, latitude, error, bars } = this.state
     const { onSubmit, onScanQR } = this
     const noBar = barId.length < 4
-    console.log("All Bars:", bars)
-    console.log("Close Bars:", closeBars)
-    console.log(this.state)
+    
     const closeBars = bars.filter((bar) => this.anyCloseBars({ lng: longitude, lat: latitude }, { lng: bar.longitude, lat: bar.latitude }, 2))
     return (
       <KeyboardAvoidingView style={ styles.container } behavior="padding" enabled>
         <Text style={ styles.h1 }>Choose your Bar</Text>
-        <TouchableOpacity style={styles.scanView} onPress={() => this.props.navigation.navigate('QRScanner', { scanQR: this.onScanQR })}>
+        <TouchableOpacity disabled={ !!barId } style={[ styles.scanView, { backgroundColor: barId ? '#4591AF' : '#006992'} ]} onPress={() => this.props.navigation.navigate('QRScanner', { scanQR: this.onScanQR })}>
           <Text style={ styles.scanButton }>Scan Code</Text>
         </TouchableOpacity>
         <Text style={ styles.h2 }> --- OR --- </Text>
         { closeBars.length ? 
-          <View>
+          <View style={styles.center}>
             <Text style={ styles.idText }> Pick a Bar Near You </Text>
             { closeBars.map(bar => {
                 return ( 
-                  <TouchableOpacity style={barId === bar.id ? styles.selectedBar : styles.barView} key={bar.id} onPress={() => this.setState({ barId: bar.id })}> 
-                    <Text style={ styles.barButton }>{ bar.name }</Text>
+                  <TouchableOpacity style={barId === bar.id ? styles.selectedBar : styles.barView} key={bar.id} onPress={() => this.setState({ barId: barId ? '' : bar.id})}> 
+                    <Text style={ barId === bar.id ? styles.selectedButton : styles.barButton }>{ bar.name }</Text>
                   </TouchableOpacity>
                 )
               }) 
@@ -101,8 +88,8 @@ class ChooseBar extends React.Component {
             { error && <Text>Whoops! {error}</Text> }
           </View>
           : 
-          <View>
-            <Text style={ styles.idText }>Looks like there are no bars near you that are playing </Text>
+          <View style={styles.enterBar}>
+            <Text style={ styles.idText }>Looks like there are no bars near you that are playing</Text>
             <Text style={ styles.idText }>Enter a Bar ID below</Text>
             <TextInput
               autoFocus
@@ -184,6 +171,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
   },
+  center: {
+    alignItems: 'center',
+    marginBottom: 80
+  },
+  enterBar: {
+    alignItems: 'center',
+  },
   barView: {
     borderRadius: 30,
     width: 160,
@@ -192,12 +186,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: '#E7F1F5',
     borderColor: '#006992',
-    color: '#006992'
+    borderWidth: 0.5,
   },
   barButton: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#006992',
     textAlign: 'center',
   },
   selectedBar: {
@@ -207,11 +201,13 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: '#006992',
-    color: '#fff'
   },
-  spacer: {
-    paddingTop: 50
-  }
+  selectedButton: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+  },
 })
 
 export default ChooseBar;

@@ -22,7 +22,7 @@ class QuestionOver extends React.Component {
       if (index < 9) this.props.navigation.push('QuestionActive')
     })
     socket.on('wait timer', (timer) => this.setState({ timer }))
-    socket.once('game has ended', () => this.props.navigation.navigate('GameOver'))
+    socket.once('game has ended', (teams) => this.props.navigation.navigate('GameOver', { teams }))
   }
 
   componentWillUnmount() {

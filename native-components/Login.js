@@ -14,7 +14,7 @@ class Login extends React.Component {
     Linking.openURL(`https://untapped-trivia.herokuapp.com/auth/${site}`)
       .then(() => this.props.navigation.navigate('ChooseBar'))
       .catch(err => console.log(err))
-    socket.on('authenticated', (id) => AsyncStorage.setItem('user', `${id}`)) 
+    socket.on('authenticated', (id) => AsyncStorage.setItem('team', `${id}`)) 
   }
 
   render() {

@@ -11,19 +11,13 @@ class TeamName extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount() {
-    socket.emit('get bar name')
-    socket.once('sending bar name', (bar) => {
-      AsyncStorage.setItem('bar_name', bar.name)
-    })
-  }
-
   onSubmit() {
     const { name } = this.state
-    Promise.all([ AsyncStorage.getItem('bar_id') ])
-      .then(([ bar_id ]) => {
-        socket.emit('choose team name', { name, bar_id })
+    Promise.all([ AsyncStorage.getItem('bar_id'), AsyncStorage.getItem('team') ])
+      .then(([ bar_id, team ]) => {
+        socket.emit('choose team name', { name, bar_id, team })
         socket.on('team register', (name) => {
+          console.log(team, name)
           console.log(`component from socket: team ${name}`)
         })
       })

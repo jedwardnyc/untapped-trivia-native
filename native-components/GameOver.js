@@ -4,12 +4,9 @@ import { View, StyleSheet, Text, Button, ScrollView, TouchableOpacity } from 're
 import { StackActions } from 'react-navigation';
 
 class GameOver extends React.Component {
-  render() {
-    const scores = [
-      { team: 'The GOATs', score: 16 },
-      { team: 'Dream Team', score: 12 },
-      { team: 'Get to the Choppa', score: 9 }
-    ]
+  render(props) {
+    console.log(this.props.navigation.state.params)
+    const scores = this.props.navigation.state.params.teams
     return (
       <View style={ styles.container }>
         <Text style={ styles.h1} >Thanks for playing!</Text>
@@ -18,7 +15,7 @@ class GameOver extends React.Component {
           <ScrollView>
             {
               scores.map(score => (
-                <Text style={ styles.scores } key={ score.team }>{`${score.team}: ${score.score}`}</Text>
+                <Text style={ styles.scores } key={ score.team }>{`${score.team_name}: ${score.score}`}</Text>
               ))
             }
           </ScrollView>

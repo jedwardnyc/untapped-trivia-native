@@ -10,7 +10,6 @@ import PregameStatic from './native-components/PregameStatic';
 import TeamName from './native-components/TeamName';
 import QuestionActive from './native-components/QuestionActive';
 import QuestionOver from './native-components/QuestionOver';
-import QuestionWaiting from './native-components/QuestionWaiting';
 import GameOver from './native-components/GameOver';
 import QRScanner from './native-components/QRScan';
 import socket from './socket-client';
@@ -38,7 +37,7 @@ class HomeScreen extends React.Component {
 
   onPlay() {
     Promise.all([
-      AsyncStorage.removeItem('user'),
+      AsyncStorage.removeItem('team'),
       AsyncStorage.removeItem('bar_id'),
       AsyncStorage.removeItem('team_name'),
       AsyncStorage.removeItem('score')
@@ -125,12 +124,6 @@ const styles = StyleSheet.create({
 //         title: 'Question Over'
 //       }
 //     },
-//     QuestionWaiting: {
-//       screen: QuestionWaiting,
-//       navigationOptions: {
-//         title: 'Next Question coming soon'
-//       }
-//     }
 //   }, {
 //     initialRouteName: 'QuestionActive'
 //   }
@@ -190,13 +183,6 @@ const MainStack = createStackNavigator(
         headerLeft: null
       }
     },
-    QuestionWaiting: {
-      screen: QuestionWaiting,
-      navigationOptions: {
-        title: 'Next Question',
-        headerLeft: null
-      }
-    },
     GameOver: {
       screen: GameOver,
       navigationOptions: {
@@ -206,8 +192,8 @@ const MainStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    // initialRouteName: 'ChooseBar',
+    // initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
+    initialRouteName: 'ChooseBar',
     navigationOptions: {
       headerStyle: { backgroundColor: '#006992' },
       headerTintColor: '#fff'

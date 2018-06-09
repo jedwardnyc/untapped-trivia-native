@@ -20,15 +20,14 @@ class PregameCountdown extends React.Component {
     let countdownTimer
     this.countdown()
     Promise.all([
-      AsyncStorage.getItem('user'),
+      AsyncStorage.getItem('team'),
       AsyncStorage.getItem('bar_id'),
       AsyncStorage.getItem('team_name'),
       AsyncStorage.getItem('bar_name'),
       AsyncStorage.removeItem('score')
     ])
-    .then(([ user, bar_id, team, bar_name ]) => {
+    .then(([ team, bar_id, team_name, bar_name ]) => {
       this.setState({ bar_name})
-      // console.log('ASYNC STORAGE:', '\n', 'user: ', user, '\n', 'bar id: ', bar_id, '\n', 'team name: ', team)
     })
     socket.on('game started', () => {
       this.props.navigation.navigate('QuestionActive')
