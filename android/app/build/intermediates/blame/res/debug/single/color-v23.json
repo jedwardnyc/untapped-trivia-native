@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_default.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_tint_default.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_seek_thumb.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_color_highlight_material.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_edittext.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_track.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_text_material.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/color-v23/abc_btn_colored_text_material.xml"
+    }
+]

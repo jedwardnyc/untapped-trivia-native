@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.1.aar/0016a438082f44f28bf4fd9dd0e53b7e/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.1.aar/0016a438082f44f28bf4fd9dd0e53b7e/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.1.aar/0016a438082f44f28bf4fd9dd0e53b7e/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.1.aar/0016a438082f44f28bf4fd9dd0e53b7e/res/layout-v21/notification_action.xml"
+    }
+]

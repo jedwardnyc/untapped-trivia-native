@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, StatusBar, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 import Info from './native-components/Info';
 import Login from './native-components/Login';
@@ -12,9 +12,10 @@ import QuestionActive from './native-components/QuestionActive';
 import QuestionOver from './native-components/QuestionOver';
 import QuestionWaiting from './native-components/QuestionWaiting';
 import GameOver from './native-components/GameOver';
-// import CameraView from './native-components/Camera';
+import QRScanner from './native-components/QRScan';
 import socket from './socket-client';
-window.navigator.userAgent = "react-native";
+// window.navigator.userAgent = "react-native";
+console.disableYellowBox = true;
 
 class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -49,7 +50,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Text style={ styles.h1 }>UnTapped Trivia</Text>
+        <Image style={ styles.logo } source={require('./images/untapped.png')}/>
         <TouchableOpacity style={ styles.playView } onPress={() => this.props.navigation.navigate('Login')}>
           <Text style={ styles.playButton }>Play now</Text>
         </TouchableOpacity>
@@ -99,6 +100,12 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingTop: 10,
     paddingBottom: 10,
+  },
+  logo: {
+    width: 320,
+    height: 120,
+    marginBottom: 60,
+    marginTop: 100
   }
 });
 
@@ -149,6 +156,12 @@ const MainStack = createStackNavigator(
         title: 'Bar ID',
       }
     },
+    QRScanner: {
+      screen: QRScanner,
+      navigationOptions: {
+        title: 'QR Scanner',
+      }
+    },
     TeamName: {
       screen: TeamName,
       navigationOptions: {
@@ -191,13 +204,10 @@ const MainStack = createStackNavigator(
         headerLeft: null
       }
     },
-    // Camera: {
-    //   screen: CameraView
-    // }
   },
   {
-    // initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
-    initialRouteName: 'ChooseBar',
+    initialRouteName: 'Home', // will be set as home at end, changing for easier page testing
+    // initialRouteName: 'ChooseBar',
     navigationOptions: {
       headerStyle: { backgroundColor: '#006992' },
       headerTintColor: '#fff'

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/drawable-v21/notification_action_background.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.1.aar/0016a438082f44f28bf4fd9dd0e53b7e/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/drawable-v21/abc_edit_text_material.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/drawable-v21/abc_edit_text_material.xml"
+    },
+    {
+        "merged": "/Users/jacob/capstone_native/android/app/build/intermediates/res/merged/debug/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/jacob/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/e5c5755c4e104e4a54f355e5efa43b39/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    }
+]

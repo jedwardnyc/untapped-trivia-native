@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from 'react';
 import { View, StyleSheet, Text, Button, AsyncStorage, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import he from 'he';
 import socket from '../socket-client';
 window.navigator.userAgent = "react-native";

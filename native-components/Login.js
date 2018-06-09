@@ -2,7 +2,6 @@
 import React from 'react';
 import { View, Text, Button, TouchableHighlight, StyleSheet, AsyncStorage, Image, Linking } from 'react-native';
 import socket from '../socket-client';
-import axios from 'axios';
 window.navigator.userAgent = "react-native";
 
 class Login extends React.Component {
@@ -11,41 +10,11 @@ class Login extends React.Component {
     this.onLogin = this.onLogin.bind(this)
   }
 
-  componentDidUpdate() {
-    Linking.addEventListener('url', this.handleOpenURL);
-  }
-
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURL);
-  }
-
-  handleOpenURL(event){
-    console.log("url", event.url);
-  }
-
   onLogin(site) {
-    console.log(`login component: login with ${site}`)
-    switch(site) {
-      case 'google':
-        console.log('switch google')
-        // axios.get(`http://localhost:3000/auth/${site}`)
-          // .then(res => console.log('response from axios: ', res.data))
-      case 'facebook':
-        console.log('switch facebook')
-    }
-    // re-direct user to login with google
-    // setting email and google id in the database
-    // send back user id who is logging in
-    // store user id in async storage
-
-    // Linking.openURL(`http://localhost:3000/auth/${site}`)
-
-    socket.on('authenticated', (id) => {
-      console.log("authenticated user:", id)
-      AsyncStorage.setItem('user', `${id}`)
-    })
-
-    this.props.navigation.navigate('ChooseBar')
+    Linking.openURL(`https://untapped-trivia.herokuapp.com/auth/${site}`)
+      .then(() => this.props.navigation.navigate('ChooseBar'))
+      .catch(err => console.log(err))
+    socket.on('authenticated', (id) => AsyncStorage.setItem('user', `${id}`)) 
   }
 
   render() {
@@ -65,8 +34,6 @@ class Login extends React.Component {
             <Image style={ styles.facebookButton } source={require('../images/facebook_button.png')} />
           </TouchableHighlight>
         </View>
-        {/*<Button onPress={() => onLogin('google') } title="Login with Google" />*/}
-        {/*<Button onPress={() => onLogin('facebook') } title="Login with Facebook" />*/}
       </View>
     )
   }
