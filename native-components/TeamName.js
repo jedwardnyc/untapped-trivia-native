@@ -20,6 +20,7 @@ class TeamName extends React.Component {
           console.log(team, name)
           console.log(`component from socket: team ${name}`)
         })
+        AsyncStorage.setItem('team', '')
       })
     AsyncStorage.setItem('team_name', name)
     this.props.navigation.navigate('PregameCountdown', { name })

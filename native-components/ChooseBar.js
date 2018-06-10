@@ -36,11 +36,11 @@ class ChooseBar extends React.Component {
   }
 
   anyCloseBars (currentCoords, barCoords, miles) {
-      const my = 24901.92 / 360;
-      const mx = Math.cos(Math.PI * currentCoords.lat / 180.0) * my;
-      const dy = Math.abs(currentCoords.lat - barCoords.lat) * my;
-      const dx = Math.abs(currentCoords.lng - barCoords.lng) * mx;
-      return Math.sqrt(dx**2 + dy**2) <= miles;
+      const milesLong = 24901.92 / 360;
+      const milesLat = Math.cos(Math.PI * currentCoords.lat / 180.0) * milesLong;
+      const distLong = Math.abs(currentCoords.lat - barCoords.lat) * milesLong;
+      const distLat = Math.abs(currentCoords.lng - barCoords.lng) * milesLat;
+      return Math.sqrt(distLong**2 + distLat**2) <= miles;
   }
 
   onSubmit() {
