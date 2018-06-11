@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView, AsyncStorage, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, AsyncStorage, TouchableOpacity } from 'react-native';
 import socket from '../socket-client';
 import axios from 'axios';
 window.navigator.userAgent = "react-native";
@@ -16,7 +16,7 @@ class ChooseBar extends React.Component {
       bars: []
     }
     this.onSubmit = this.onSubmit.bind(this)
-    this.onScanQR = this.onScanQR.bind(this)
+    this.scanQR = this.scanQR.bind(this)
     this.anyCloseBars = this.anyCloseBars.bind(this)
   }
 
@@ -36,11 +36,11 @@ class ChooseBar extends React.Component {
   }
 
   anyCloseBars (currentCoords, barCoords, miles) {
-      const milesLong = 24901.92 / 360;
-      const milesLat = Math.cos(Math.PI * currentCoords.lat / 180.0) * milesLong;
-      const distLong = Math.abs(currentCoords.lat - barCoords.lat) * milesLong;
-      const distLat = Math.abs(currentCoords.lng - barCoords.lng) * milesLat;
-      return Math.sqrt(distLong**2 + distLat**2) <= miles;
+    const milesLong = 24901.92 / 360;
+    const milesLat = Math.cos(Math.PI * currentCoords.lat / 180.0) * milesLong;
+    const distLong = Math.abs(currentCoords.lat - barCoords.lat) * milesLong;
+    const distLat = Math.abs(currentCoords.lng - barCoords.lng) * milesLat;
+    return Math.sqrt(distLong**2 + distLat**2) <= miles;
   }
 
   onSubmit() {
@@ -56,21 +56,21 @@ class ChooseBar extends React.Component {
     })
   }
 
-  onScanQR(bar) {
+  scanQR(bar) {
     Promise.all([this.setState({ barId: bar.data })])
       .then(() =>this.onSubmit());
   }
 
   render() {
     const { barId, longitude, latitude, error, bars } = this.state
-    const { onSubmit, onScanQR } = this
+    const { onSubmit, scanQR } = this
     const noBar = barId.length < 4
     
     const closeBars = bars.filter((bar) => this.anyCloseBars({ lng: longitude, lat: latitude }, { lng: bar.longitude, lat: bar.latitude }, 2))
     return (
       <KeyboardAvoidingView style={ styles.container } behavior="padding" enabled>
-        <Text style={ styles.h1 }>Choose your Bar</Text>
-        <TouchableOpacity disabled={ !!barId } style={[ styles.scanView, { backgroundColor: barId ? '#4591AF' : '#006992'} ]} onPress={() => this.props.navigation.navigate('QRScanner', { scanQR: this.onScanQR })}>
+        <Text style={ styles.title }>Choose your Bar</Text>
+        <TouchableOpacity disabled={ !!barId } style={[ styles.scanView, { backgroundColor: barId ? '#4591AF' : '#006992'} ]} onPress={() => this.props.navigation.navigate('QRScanner', { scanQR })}>
           <Text style={ styles.scanButton }>Scan Code</Text>
         </TouchableOpacity>
         <Text style={ styles.h2 }> --- OR --- </Text>
@@ -89,7 +89,6 @@ class ChooseBar extends React.Component {
           </View>
           : 
           <View style={styles.enterBar}>
-            <Text style={ styles.idText }>Looks like there are no bars near you that are playing</Text>
             <Text style={ styles.idText }>Enter a Bar ID below</Text>
             <TextInput
               autoFocus
@@ -115,10 +114,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 60,
+    paddingTop: 40,
     backgroundColor: '#E7F1F5',
   },
-  h1: {
+  title: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#27476E'

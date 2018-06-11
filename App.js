@@ -1,19 +1,18 @@
 /* eslint-disable */
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, StatusBar, Image } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import Info from './native-components/Info';
 import Login from './native-components/Login';
 import ChooseBar from './native-components/ChooseBar';
 import PregameCountdown from './native-components/PregameCountdown';
-import PregameStatic from './native-components/PregameStatic';
 import TeamName from './native-components/TeamName';
 import QuestionActive from './native-components/QuestionActive';
 import QuestionOver from './native-components/QuestionOver';
 import GameOver from './native-components/GameOver';
 import QRScanner from './native-components/QRScan';
 import socket from './socket-client';
-// window.navigator.userAgent = "react-native";
+window.navigator.userAgent = "react-native";
 console.disableYellowBox = true;
 
 class HomeScreen extends React.Component {
@@ -24,9 +23,6 @@ class HomeScreen extends React.Component {
           <Text style={ styles.about }>About</Text>
         </TouchableOpacity>
       ),
-      // headerRight: (
-      //   <Button title="Home" onPress={() => navigation.push('Home')} />
-      // )
     }
   }
 
@@ -36,6 +32,10 @@ class HomeScreen extends React.Component {
   }
 
   onPlay() {
+  axios.get('https://untapped-trivia.herokuapp.com/v1/bars')
+  .then(res => res.data)
+  .then(bars => this.setState({ bars }))
+  .catch(err => console.log(err))
     Promise.all([
       AsyncStorage.removeItem('team'),
       AsyncStorage.removeItem('bar_id'),
@@ -108,27 +108,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// questions and gameplay have to be switch navigator
-// not being used right now
-// const GameStack = createSwitchNavigator(
-//   {
-//     QuestionActive: {
-//       screen: QuestionActive,
-//       navigationOptions: {
-//         title: 'Current Question'
-//       }
-//     },
-//     QuestionOver: {
-//       screen: QuestionOver,
-//       navigationOptions: {
-//         title: 'Question Over'
-//       }
-//     },
-//   }, {
-//     initialRouteName: 'QuestionActive'
-//   }
-// )
-
 const MainStack = createStackNavigator(
   {
     Home: {
@@ -168,7 +147,6 @@ const MainStack = createStackNavigator(
         headerLeft: null
       }
     },
-    // GamePlay: GameStack,
     QuestionActive: {
       screen: QuestionActive,
       navigationOptions: {
@@ -201,15 +179,9 @@ const MainStack = createStackNavigator(
   }
 )
 
-// const TabStack = createBottomTabNavigator({
-//   Home: MainStack,
-//   // Profile: Profile
-// })
-
 const RootStack = createStackNavigator(
   {
     Main: MainStack,
-    // GamePlay: GameStack,
     Info: Info,
   },
   {

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { View, StyleSheet, Text, Button, AsyncStorage, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Button, AsyncStorage, TouchableOpacity, Vibration } from 'react-native';
 import he from 'he';
 import socket from '../socket-client';
 window.navigator.userAgent = "react-native";
@@ -10,7 +10,7 @@ class QuestionActive extends React.Component {
     super()
     this.state = {
       answer: '',
-      timer: 10,
+      timer: 0,
       question: {},
       score: 0,
       team: '',
@@ -31,7 +31,11 @@ class QuestionActive extends React.Component {
         questionNumber: this.state.questionNumber
       })
     })
-    socket.on('question timer', (timer) => this.setState({ timer }))
+    socket.on('question timer', (timer) => {
+      console.log('socket', timer)
+      console.log('state', this.state.timer)
+      this.setState({ timer })
+    })
     Promise.all([
       AsyncStorage.getItem('score'),
       AsyncStorage.getItem('team_name')
@@ -60,14 +64,14 @@ class QuestionActive extends React.Component {
   }
 
   render() {
-    const { timer, answer, question, score, questionNumber } = this.state
+    const { timer, answer, question, score, questionNumber, team } = this.state
     const { onChooseAnswer, onParseHTML } = this
     const noClick = !timer || !!answer
     if (!question.question) return null
     return (
       <View style={ styles.container }>
         <View style={ styles.topRow }>
-          <Text style={{ color: '#27476E' }}>Top Score: XX</Text>
+          <Text style={{ color: '#27476E' }}>Name: {team}</Text>
           <Text style={{ color: '#27476E' }}>Your Score: {score ? score : 0}</Text>
         </View>
         <View style={ styles.questionInfo }>
