@@ -10,7 +10,7 @@ class QuestionActive extends React.Component {
     super()
     this.state = {
       answer: '',
-      timer: 0,
+      timer: 9,
       question: {},
       score: 0,
       team: '',
@@ -32,9 +32,8 @@ class QuestionActive extends React.Component {
       })
     })
     socket.on('question timer', (timer) => {
-      console.log('socket', timer)
-      console.log('state', this.state.timer)
-      this.setState({ timer })
+      if (this.state.timer < 5) Vibration.vibrate(500)
+      return this.setState({ timer })
     })
     Promise.all([
       AsyncStorage.getItem('score'),

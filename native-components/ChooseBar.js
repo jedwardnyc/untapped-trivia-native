@@ -18,17 +18,18 @@ class ChooseBar extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.scanQR = this.scanQR.bind(this)
     this.anyCloseBars = this.anyCloseBars.bind(this)
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      })
+    },
+      (error) => this.setState({ error: error.message })
+    )
+
   }
 
   componentDidMount(){
-    navigator.geolocation.getCurrentPosition((position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        })
-      },
-      (error) => this.setState({ error: error.message })
-    )
     axios.get('https://untapped-trivia.herokuapp.com/v1/bars')
     .then(res => res.data)
     .then(bars => this.setState({ bars }))
